@@ -3,23 +3,23 @@
 #include <iostream>
 using namespace std;
 
-const set <int, greater <int>> coins_nominal {1, 2, 5, 10};
-set <int> :: iterator it = coins_nominal.begin();
-map <int, int> moneybox;
-map <int, int> coins_to_give;
-const int price = 5;
+const set <short, greater <short>> coins_nominal {1, 2, 5, 10};
+set <short> :: iterator it = coins_nominal.begin();
+map <short, short> moneybox;
+map <short, short> coins_to_give;
+const short price = 5;
 
-int money_to_change (int money)
+short money_to_change (short money)
 {
-	int x;
+	short x;
 	x = money - price;
 	return x;
 };
 
-void change_to_coins(int change)
+void change_to_coins(short change)
 {
-	set <int> :: iterator it = coins_nominal.begin();
-	int k;
+	it = coins_nominal.begin();
+	short k;
 
 	for (int i = 0; it != coins_nominal.end(); it++, i++)
 	{
@@ -30,20 +30,18 @@ void change_to_coins(int change)
 };
 
 
-void money_to_coins(int change)
+void money_to_coins(short money)
 {
-	set <int> :: iterator it = coins_nominal.begin();
+	it = coins_nominal.begin();
 	int k;
 
-	for (int i = 0; it != coins_nominal.end(); it++, i++)
+	for (short i = 0; it != coins_nominal.end(); it++, i++)
 	{
-		k = change / *it;
+		k = money / *it;
 		moneybox[*it] = k;
-		change -= k* *it;
+		money -= k* *it;
 	}
 };
-
-
 
 
 void empty_moneybox()
@@ -56,8 +54,8 @@ void empty_moneybox()
 };
 
 int main() {
-	int money;
-	int change;
+	short money;
+	short change;
 	empty_moneybox();
 
 	for (int i = 0; i <= 1000; i++)
@@ -67,13 +65,12 @@ int main() {
 
 		change = money_to_change(money);
 		change_to_coins (change);
-		cout <<"вы получите: "<< change << endl;
-		it = coins_nominal.begin();
 
-		for (int i = 0; it != coins_nominal.end(); it++, i++)
-		{
-			cout << *it << "-рублевых: " << coins_to_give[*it] << endl;
-		};
+		cout <<"вы получите: "<< change << endl;
+
+		for (const int &i : coins_nominal) {
+			cout << i << "-рублевых: " << coins_to_give[i] << endl;
+		}
 	}
 	return 0;
 }
