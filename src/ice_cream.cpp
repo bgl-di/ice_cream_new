@@ -3,7 +3,9 @@
 #include <iostream>
 using namespace std;
 
-const set <int, greater <int>> coins_nominal {5, 10};
+const set <int, greater <int>> coins_nominal {1, 2, 5, 10};
+set <int> :: iterator it = coins_nominal.begin();
+map <int, int> moneybox;
 map <int, int> coins_to_give;
 const int price = 5;
 
@@ -14,7 +16,7 @@ int money_to_change (int money)
 	return x;
 };
 
-void change_in_coins(int change)
+void change_to_coins(int change)
 {
 	set <int> :: iterator it = coins_nominal.begin();
 	int k;
@@ -27,12 +29,29 @@ void change_in_coins(int change)
 	}
 };
 
-void empty_moneybox()
+
+void money_to_coins(int change)
 {
 	set <int> :: iterator it = coins_nominal.begin();
+	int k;
+
 	for (int i = 0; it != coins_nominal.end(); it++, i++)
 	{
-		coins_to_give[*it] = 0;
+		k = change / *it;
+		moneybox[*it] = k;
+		change -= k* *it;
+	}
+};
+
+
+
+
+void empty_moneybox()
+{
+	it = coins_nominal.begin();
+	for (int i = 0; it != coins_nominal.end(); it++, i++)
+	{
+		moneybox[*it] = 0;
 	}
 };
 
@@ -44,15 +63,17 @@ int main() {
 	for (int i = 0; i <= 1000; i++)
 	{
 		cin >> money;
-		if (money >= 5)
+		money_to_coins(money);
+
+		change = money_to_change(money);
+		change_to_coins (change);
+		cout <<"вы получите: "<< change << endl;
+		it = coins_nominal.begin();
+
+		for (int i = 0; it != coins_nominal.end(); it++, i++)
 		{
-			change = money_to_change(money);
-			change_in_coins (change);
-			cout <<"вы получите: "<< change << endl;
-			cout << "пятирублевых: " << coins_to_give[5] << endl;
-			cout << "десятирублевых: " << coins_to_give[10] << endl;
-		}
-		else cout << "error";
+			cout << *it << "-рублевых: " << coins_to_give[*it] << endl;
+		};
 	}
 	return 0;
 }
