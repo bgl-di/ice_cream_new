@@ -49,41 +49,32 @@ void empty_moneybox()
 
 short getvalue()
 {
-	while (true)
+	short money;
+	while (!(cin >> money) || (cin.peek() != '\n') || money < 0)
 	{
-		short money;
-		cin >> money;
-
-		if (cin.fail())
-		{
-			cin.clear();
-			cin.ignore(32767, '\n');
-		}
-		else
-		{
-			cin.ignore(32767, '\n');
-			return money;
-		}
+		cin.clear();
+		while (cin.get() !='\n');
+		cout << "Input error!" << endl;
 	}
+	return money;
 };
 
 
 int main() {
-	short money = getvalue();
 	short change;
+	short money;
 	empty_moneybox();
 
 	for (int i = 0; i <= 1000; i++)
 	{
+		money = getvalue();
 		money_to_coins(money);
-		if (money < 5 || money < 0)
-		{
-			cout << "недостаточно денег"<<endl;
-			continue;
-		}
 
 		change = money_to_change(money);
-		cout <<"вы получите: "<< change << endl;
+		if (money >= 5)
+			cout <<"Вы получите мороженое и "<< change << " рублей сдачи" << endl;
+		else if (0 < money < 5)
+			continue;
 		change_to_coins (change);
 	}
 	return 0;
