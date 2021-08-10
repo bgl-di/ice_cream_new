@@ -4,7 +4,6 @@
 using namespace std;
 
 const set <short, greater <short>> coins_nominal {1, 2, 5, 10};
-set <short> :: iterator it = coins_nominal.begin();
 map <short, short> moneybox;
 map <short, short> coins_to_give;
 const short price = 5;
@@ -16,61 +15,76 @@ short money_to_change (short money)
 	return x;
 };
 
-void change_to_coins(short change)
-{
-	it = coins_nominal.begin();
-	short k;
-
-	for (int i = 0; it != coins_nominal.end(); it++, i++)
-	{
-		k = change / *it;
-		coins_to_give[*it] = k;
-		change -= k* *it;
-	}
-};
-
-
 void money_to_coins(short money)
 {
-	it = coins_nominal.begin();
 	int k;
-
-	for (short i = 0; it != coins_nominal.end(); it++, i++)
+	for (const int &i : coins_nominal)
 	{
-		k = money / *it;
-		moneybox[*it] = k;
-		money -= k* *it;
+		k = money / i;
+		moneybox[i] += k;
+		money -= k* i;
 	}
 };
 
+void change_to_coins(short change)
+{
+	short k;
+
+	for (const int &i : coins_nominal)
+	{
+		k = change / i;
+		change -= min(moneybox[i],k) * i;
+		cout << i <<"-рублевых: " << min(moneybox[i],k) <<endl;
+		moneybox[i] -= min(moneybox[i],k);
+	}
+};
 
 void empty_moneybox()
 {
-	it = coins_nominal.begin();
-	for (int i = 0; it != coins_nominal.end(); it++, i++)
+	for (const int &i : coins_nominal)
 	{
-		moneybox[*it] = 0;
+		moneybox[i] = 0;
 	}
 };
 
+short getvalue()
+{
+	while (true)
+	{
+		short money;
+		cin >> money;
+
+		if (cin.fail())
+		{
+			cin.clear();
+			cin.ignore(32767, '\n');
+		}
+		else
+		{
+			cin.ignore(32767, '\n');
+			return money;
+		}
+	}
+};
+
+
 int main() {
-	short money;
+	short money = getvalue();
 	short change;
 	empty_moneybox();
 
 	for (int i = 0; i <= 1000; i++)
 	{
-		cin >> money;
 		money_to_coins(money);
+		if (money < 5 || money < 0)
+		{
+			cout << "недостаточно денег"<<endl;
+			continue;
+		}
 
 		change = money_to_change(money);
-		change_to_coins (change);
-
 		cout <<"вы получите: "<< change << endl;
-
-		for (const int &i : coins_nominal) {
-			cout << i << "-рублевых: " << coins_to_give[i] << endl;
-		}
+		change_to_coins (change);
 	}
 	return 0;
 }
