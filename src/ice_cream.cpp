@@ -4,7 +4,7 @@
 using namespace std;
 
 const set <short, greater <short>> coins_nominal {15, 5, 10};
-map <unsigned short, unsigned short> moneybox;
+map <short, short> moneybox;
 map <short, short> coins_to_give;
 const short price = 5;
 
@@ -28,21 +28,30 @@ void money_to_coins(short money)
 
 void change_to_coins(short change)
 {
-	unsigned short k = 0;
+	short k = 0;
 	short y = change;
 
 	for (const int &i : coins_nominal)
 	{
-		k = change / i;
-		y -= (min(moneybox[i],k) * i);
-		cout<<moneybox[i]<<endl;
-		if (y == 0)
-			break;
+		if (y >= i)
+		{
+			k = change / i;
+			y -= (min(moneybox[i],k) * i);
+		}
+		else
+			continue;
 	}
 
 	if (y > 0)
 	{
-		cout << "Ќедостаточно денег в автомате, вы получите: " << change + price << endl;
+		short mon = change + price;
+		cout << "Ќедостаточно денег в автомате, вы получите: " << mon << endl;
+		for (const int &i : coins_nominal)
+			{
+				k = mon / i;
+				mon -= min(moneybox[i],k) * i;
+				moneybox[i] -= min(moneybox[i],k);
+			}
 		return;
 	}
 
@@ -54,9 +63,6 @@ void change_to_coins(short change)
 		cout << i <<"-рублевых: " << min(moneybox[i],k) <<endl;
 		moneybox[i] -= min(moneybox[i],k);
 	}
-
-	y = 0;
-	change = 0;
 };
 
 void empty_moneybox()
@@ -92,6 +98,10 @@ int main() {
 
 		change = money_to_change(money);
 		change_to_coins (change);
+		for (const int &i : coins_nominal)
+		{
+			cout << i << " - " << moneybox[i] << endl;
+		}
 	}
 	return 0;
 }
