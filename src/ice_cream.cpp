@@ -3,9 +3,8 @@
 #include <iostream>
 using namespace std;
 
-const set <short, greater <short>> coins_nominal {15, 5, 10};
+const set <short, greater <short>> coins_nominal {5, 10, 15};
 map <short, short> moneybox;
-map <short, short> coins_to_give;
 const short price = 5;
 
 short money_to_change (short money)
