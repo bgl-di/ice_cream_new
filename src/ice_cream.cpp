@@ -13,7 +13,7 @@ short money_to_change(short money) {
 	x = money - price;
 	return x;
 }
-;
+
 
 void money_to_coins(short money) {
 	int k;
@@ -23,7 +23,7 @@ void money_to_coins(short money) {
 		money -= k * i;
 	}
 }
-;
+
 
 void change_to_coins(short change) {
 	short k = 0;
@@ -57,14 +57,14 @@ void change_to_coins(short change) {
 		moneybox[i] -= min(moneybox[i], k);
 	}
 }
-;
+
 
 void empty_moneybox() {
 	for (const int &i : coins_nominal) {
 		moneybox[i] = 0;
 	}
 }
-;
+
 
 short getvalue() {
 	short money;
@@ -76,7 +76,7 @@ short getvalue() {
 	}
 	return money;
 }
-;
+
 
 int main() {
 	short change;
