@@ -4,7 +4,7 @@
 
 using namespace std;
 
-const set<short, greater<short>> coins_nominal { 5, 10, 15 };
+const set<short, greater<short>> coins_nominal{ 5, 10, 15 };
 map<short, short> moneybox;
 const short price = 5;
 
