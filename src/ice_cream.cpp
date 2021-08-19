@@ -40,12 +40,12 @@ void change_to_coins(short change) {
 		return;
 	}
 
-	cout << "You will get an ice cream and " << change << " dollars change"
+	cout << "   You will get an ice cream and " << change << " dollars change"
 			<< endl;
 	for (const int &i : coins_nominal) {
 		number_of_coins = change / i;
 		change -= min(moneybox[i], number_of_coins) * i;
-		cout << i << "-dollar: " << min(moneybox[i], number_of_coins) << endl;
+		cout <<"   "<< i << "-dollar: " << min(moneybox[i], number_of_coins) << endl;
 		moneybox[i] -= min(moneybox[i], number_of_coins);
 	}
 }
@@ -75,7 +75,7 @@ int main() {
 	moneybox_initialization();
 
 	while (true) {
-		cout << "Enter the amount of money, to exit enter zero:" << endl;
+		cout << endl << " Enter the amount of money, to exit enter zero: ";
 		money = getvalue();
 		if (money == 0)
 			return 0;
@@ -84,7 +84,7 @@ int main() {
 		change = money - price;
 		change_to_coins(change);
 		for (const int &i : coins_nominal) {
-			cout << i << " - " << moneybox[i] << endl;
+			cout << "   " << i << " - " << moneybox[i] << endl;
 		}
 	}
 	return 0;
